@@ -1,0 +1,18 @@
+{
+  "name": "simple-dms",
+  "version": "1.0.0",
+  "description": "Simple web based document management system",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "dms"
+  ],
+  "author": "Steffen Schön",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

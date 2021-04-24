@@ -17,7 +17,7 @@
   - [x] Tag routes
   - [ ] Removed Tag from documents on delete
 - [ ] Documents
-  - [ ] Document schema
+  - [x] Document schema
   - [ ] Document routes
   - [ ] PDF upload
   - [ ] PDF routes

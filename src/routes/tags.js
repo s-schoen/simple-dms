@@ -1,5 +1,6 @@
 const errors = require("restify-errors");
 const Tag = require("../schemas/Tag");
+const Document = require("../schemas/Document");
 const jwt = require("../util/jwt");
 
 const toResponse = (t) => {
@@ -106,6 +107,10 @@ module.exports = (server) => {
       }
 
       const deletedTag = await Tag.findOneAndRemove({ _id: req.params.id });
+
+      // remove tag from documents
+      await Document.updateMany({}, { $pullAll: { tags: [req.params.id] } });
+
       res.send(toResponse(deletedTag));
       next();
     } catch (error) {

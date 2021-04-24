@@ -33,6 +33,27 @@ const DirectorySchema = new mongoose.Schema({
   },
 });
 
+DirectorySchema.pre("remove", (next) => {
+  const dir = this;
+
+  // delete directory from documents
+  dir.model("Document").updateMany({ directory: dir._id }, { directory: null });
+
+  if (dir.parent !== null) {
+    // remove from parent
+    dir
+      .model("Directory")
+      .update({ _id: dir.parent }, { $pullAll: { children: [dir._id] } });
+  }
+
+  // remove child directories
+  for (const childId in dir.children) {
+    dir.model("Directory").remove({ _id: childId });
+  }
+
+  next();
+});
+
 const Directory = mongoose.model("Directory", DirectorySchema);
 
 module.exports = Directory;

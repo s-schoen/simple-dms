@@ -161,12 +161,6 @@ module.exports = (server) => {
         );
       }
 
-      if (dirToDelete.children.length > 0) {
-        // delete all children
-        // TODO: recursively
-        await Directory.deleteMany({ _id: { $in: dirToDelete.children } });
-      }
-
       const deletedDir = await Directory.findOneAndRemove({
         _id: req.params.id,
       });

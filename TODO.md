@@ -4,20 +4,23 @@
   - [x] User schema
   - [x] User routes
   - [x] Auth routes
-- [ ] Directories
+- [x] Directories
   - [x] Directory schema
   - [x] Update refs on insert
   - [x] Update directory refs on update
-  - [ ] Update refs on delete
-    - [ ] Update other directory refs
-    - [ ] Update document refs
+  - [x] Update refs on delete
+    - [x] Update other directory refs
+    - [x] Update document refs
   - [x] Directory routes
-- [ ] Tags
+- [x] Tags
   - [x] Tag schema
   - [x] Tag routes
-  - [ ] Removed Tag from documents on delete
+  - [x] Removed Tag from documents on delete
 - [ ] Documents
   - [x] Document schema
   - [x] Document routes
+  - [ ] Generate PDF thumbnail
+  - [ ] thumbnail routes
+  - [ ] Set document file size
   - [ ] PDF upload
   - [ ] PDF routes

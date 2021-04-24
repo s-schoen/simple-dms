@@ -18,6 +18,6 @@
   - [ ] Removed Tag from documents on delete
 - [ ] Documents
   - [x] Document schema
-  - [ ] Document routes
+  - [x] Document routes
   - [ ] PDF upload
   - [ ] PDF routes

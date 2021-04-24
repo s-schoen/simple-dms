@@ -21,7 +21,7 @@
   - [x] Document routes
   - [ ] Generate PDF thumbnail
   - [ ] thumbnail routes
-  - [ ] Set document file size
-  - [ ] PDF upload
-  - [ ] PDF routes
-- [ ] User management script
+  - [x] Set document file size
+  - [x] PDF upload
+  - [x] PDF routes
+- [x] User management script

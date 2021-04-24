@@ -31,11 +31,33 @@ module.exports = {
     return path.join(config.DATA_DIRECTORY, userId, `${documentId}.pdf`);
   },
   /**
+   * Gets a ReadStream for a stored document by user id and document id
+   * @param {String} userId ID of the owner
+   * @param {Number} documentId ID of the document
+   * @returns ReadStream for the stored file
+   */
+  getDocumentReadStream: function (userId, documentId) {
+    return fs.createReadStream(
+      path.join(config.DATA_DIRECTORY, userId, `${documentId}.pdf`)
+    );
+  },
+  /**
    * Removes the file for a document
    * @param {String} userId ID of the owner
    * @param {Number} documentId ID of the document
    */
   deleteDocument: function (userId, documentId) {
     fs.rmSync(this.getDocumentPath(userId, documentId));
+  },
+  /**
+   * Checks if a document is stored
+   * @param {String} userId ID of the owner
+   * @param {Number} documentId ID of the document
+   * @returns true if the document exists, false otherwise
+   */
+  documentExists: function (userId, documentId) {
+    return fs.existsSync(
+      path.join(config.DATA_DIRECTORY, userId, `${documentId}.pdf`)
+    );
   },
 };

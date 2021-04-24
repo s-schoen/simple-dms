@@ -84,5 +84,6 @@ db.once("open", () => {
   require("./routes/dirs")(server);
   require("./routes/tags")(server);
   require("./routes/documents")(server);
+  require("./routes/pdf")(server);
   console.log(`Server listening for API requests on port ${config.PORT}`);
 });

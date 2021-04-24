@@ -64,6 +64,8 @@ module.exports = (server) => {
       next(new errors.BadRequestError("Invalid file"));
     }
 
+    console.log("GOT", req.params.data);
+    console.log("PARSED", JSON.parse(JSON.stringify(req.params.data)));
     const newDoc = new Document(JSON.parse(req.params.data));
     newDoc.user = userId;
     newDoc.documentSize = req.files.pdf.size;

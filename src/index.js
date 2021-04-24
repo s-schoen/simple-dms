@@ -84,6 +84,7 @@ db.on("error", (err) => {
 
 db.once("open", () => {
   // setup routes
-  // require("./routes/meta")(server);
+  require("./routes/auth")(server);
+  require("./routes/users")(server);
   console.log(`Server listening for API requests on port ${config.PORT}`);
 });

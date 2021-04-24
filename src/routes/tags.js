@@ -18,7 +18,7 @@ module.exports = (server) => {
     const userId = jwt.getUserId(req);
 
     try {
-      const tags = Tag.find({ user: userId });
+      const tags = await Tag.find({ user: userId });
       res.send(tags.map((t) => toResponse(t)));
       next();
     } catch (error) {

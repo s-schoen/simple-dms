@@ -2,7 +2,7 @@ const restify = require("restify");
 const corsMiddleware = require("restify-cors-middleware");
 const logger = require("morgan");
 const config = require("./config");
-// const restifyJwt = require("restify-jwt-community");
+const restifyJwt = require("restify-jwt-community");
 const mongoose = require("mongoose");
 const pjson = require("../package.json");
 
@@ -29,19 +29,14 @@ server.use(
 );
 server.pre(restify.pre.sanitizePath());
 
-// protect non GET routes using JWT
-// server.use((req, res, next) => {
-//   if (req.method !== "GET") {
-//     restifyJwt({ secret: config.JWT_SECRET }).unless({ path: ["/api/auth"] })(
-//       req,
-//       res,
-//       next
-//     );
-//   } else {
-//     // GET routes are public
-//     next();
-//   }
-// });
+// protect routes except auth using JWT
+server.use((req, res, next) => {
+  restifyJwt({ secret: config.JWT_SECRET }).unless({ path: ["/api/auth"] })(
+    req,
+    res,
+    next
+  );
+});
 
 // cors
 const cors = corsMiddleware({

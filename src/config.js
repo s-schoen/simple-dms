@@ -12,5 +12,7 @@ module.exports = {
   // amount of time a JWT is valid
   JWT_EXPIRATION_SPAN: process.env.JWT_EXPIRATION_SPAN || "60m",
   // whether to add artificial delay to responses for testing: either false or delay in ms
-  ARTIFICIAL_DELAY: process.env.ARTIFICIAL_DELAY || false
+  ARTIFICIAL_DELAY: process.env.ARTIFICIAL_DELAY || false,
+  // location to the data directory where uploaded documents are stored
+  DATA_DIRECTORY: process.env.DATA_DIRECTORY || "./data/",
 };

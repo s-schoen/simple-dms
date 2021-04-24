@@ -1,6 +1,7 @@
 const errors = require("restify-errors");
 const Document = require("../schemas/Document");
 const jwt = require("../util/jwt");
+const files = require("../util/files");
 
 const toResponse = (d) => {
   return {
@@ -56,11 +57,16 @@ module.exports = (server) => {
 
   // insert new document
   server.post("/api/docs", async (req, res, next) => {
-    req.accepts("application/json");
-
     const userId = jwt.getUserId(req);
-    const newDoc = new Document(req.body);
+
+    // check file
+    if (!req.files.pdf || req.files.pdf.type !== "application/pdf") {
+      next(new errors.BadRequestError("Invalid file"));
+    }
+
+    const newDoc = new Document(JSON.parse(req.params.data));
     newDoc.user = userId;
+    newDoc.documentSize = req.files.pdf.size;
 
     try {
       // get current highest documentId for the user
@@ -71,6 +77,14 @@ module.exports = (server) => {
       newDoc.documentId = currentMaxDocId === null ? 1 : currentMaxDocId + 1;
 
       const insertedDoc = await newDoc.save();
+
+      // store file
+      files.storeDocumentFile(
+        req.files.pdf.path,
+        userId,
+        insertedDoc.documentId
+      );
+
       res.send(201, toResponse(insertedDoc));
       console.log(
         `User ${userId} created new document`,
@@ -84,10 +98,18 @@ module.exports = (server) => {
 
   // update document by document id
   server.put("/api/docs/:docId", async (req, res, next) => {
-    req.accepts("application/json");
-
     const userId = jwt.getUserId(req);
-    const update = req.body;
+
+    // check file type of data of supplied
+    if (req.files.pdf && req.files.pdf.type !== "application/pdf") {
+      next(
+        new errors.BadRequestError(
+          "Invalid file type. Only PDF files are supported"
+        )
+      );
+    }
+
+    const update = JSON.parse(req.params.data);
     delete update.user;
     delete update._id;
     delete update.documentId;
@@ -103,6 +125,12 @@ module.exports = (server) => {
             `No document with id ${req.params.docId}`
           )
         );
+      }
+
+      // store file if supplied
+      if (req.files.pdf) {
+        update.documentSize = req.files.pdf.size;
+        files.storeDocumentFile(req.files.pdf.path, userId, docToUpdate.params);
       }
 
       const updatedDoc = await Document.findOneAndUpdate(
@@ -140,6 +168,9 @@ module.exports = (server) => {
       const deletedDoc = await Document.findOneAndRemove({
         $and: [{ user: userId }, { documentId: req.params.docId }],
       });
+
+      // delete file
+      files.deleteDocument(userId, deletedDoc.documentId);
 
       res.send(toResponse(deletedDoc));
       console.log(`User ${userId} deleted document`, toResponse(deletedDoc));

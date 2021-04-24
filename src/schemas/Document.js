@@ -17,6 +17,10 @@ const DocumentSchema = new mongoose.Schema(
     content: {
       type: String,
     },
+    author: {
+      type: String,
+      default: "",
+    },
     documentSize: {
       type: Number,
       require: true,

@@ -86,5 +86,6 @@ db.once("open", () => {
   // setup routes
   require("./routes/auth")(server);
   require("./routes/users")(server);
+  require("./routes/dirs")(server);
   console.log(`Server listening for API requests on port ${config.PORT}`);
 });

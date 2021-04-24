@@ -5,8 +5,13 @@
   - [x] User routes
   - [x] Auth routes
 - [ ] Directories
-  - [ ] Directory schema
-  - [ ] Directory routes
+  - [x] Directory schema
+  - [x] Update refs on insert
+  - [x] Update directory refs on update
+  - [ ] Update refs on delete
+    - [ ] Update other directory refs
+    - [ ] Update document refs
+  - [x] Directory routes
 - [ ] Tags
   - [ ] Tag schema
   - [ ] Tag routes

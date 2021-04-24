@@ -13,8 +13,9 @@
     - [ ] Update document refs
   - [x] Directory routes
 - [ ] Tags
-  - [ ] Tag schema
-  - [ ] Tag routes
+  - [x] Tag schema
+  - [x] Tag routes
+  - [ ] Removed Tag from documents on delete
 - [ ] Documents
   - [ ] Document schema
   - [ ] Document routes

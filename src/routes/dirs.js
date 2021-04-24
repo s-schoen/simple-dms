@@ -6,7 +6,7 @@ const toResponse = (d) => {
   return {
     id: d._id,
     name: d.name,
-    description: d.description,
+    description: d.description || "",
     parent: d.parent,
     children: d.children,
   };

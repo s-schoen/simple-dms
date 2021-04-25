@@ -22,6 +22,7 @@ module.exports = (server) => {
       res.send(tags.map((t) => toResponse(t)));
       next();
     } catch (error) {
+      console.error("Error at tags GET", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -46,6 +47,8 @@ module.exports = (server) => {
       if (error.name === "ValidationError") {
         return next(new errors.BadRequestError(error));
       }
+
+      console.error("Error at tags POST", error);
       return next(new errors.InternalServerError(error));
     }
   });
@@ -84,6 +87,7 @@ module.exports = (server) => {
       console.log(`User ${userId} updated tag`, toResponse(updatedTag));
       next();
     } catch (error) {
+      console.error("Error at tags PUT", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -114,6 +118,7 @@ module.exports = (server) => {
       res.send(toResponse(deletedTag));
       next();
     } catch (error) {
+      console.error("Error at tags DEL", error);
       next(new errors.InternalServerError(error));
     }
   });

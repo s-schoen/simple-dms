@@ -18,6 +18,7 @@ module.exports = (server) => {
 
       next();
     } catch (error) {
+      console.error("Error at users GET ALL", error);
       return next(new errors.InternalServerError(error));
     }
   });
@@ -52,6 +53,7 @@ module.exports = (server) => {
         next();
       }
     } catch (error) {
+      console.error("Error at users GET BYID", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -101,6 +103,8 @@ module.exports = (server) => {
       if (error.name === "ValidationError") {
         return next(new errors.BadRequestError(error));
       }
+
+      console.error("Error at users PUT", error);
       return next(new errors.InternalServerError(error));
     }
   });

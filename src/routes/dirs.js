@@ -21,6 +21,7 @@ module.exports = (server) => {
       const dirs = await Directory.find({ user: userId });
       res.send(dirs.map((d) => toResponse(d)));
     } catch (error) {
+      console.error("Error at dirs GET", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -65,6 +66,7 @@ module.exports = (server) => {
       );
       next();
     } catch (error) {
+      console.error("Error at dirs POST", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -134,6 +136,7 @@ module.exports = (server) => {
       );
       next();
     } catch (error) {
+      console.error("Error at dirs PUT", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -169,6 +172,7 @@ module.exports = (server) => {
       console.log(`Deleted directory ${req.params.id}`, toResponse(deletedDir));
       next();
     } catch (error) {
+      console.error("Error at dirs DEL", error);
       next(new errors.InternalServerError(error));
     }
   });

@@ -47,6 +47,7 @@ module.exports = (server) => {
 
       files.getThumbnailReadStream(userId, req.params.docId).pipe(res);
     } catch (error) {
+      console.error("Error at pdf thumbnail GET", error);
       next(new errors.InternalServerError(error));
     }
   });

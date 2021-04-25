@@ -28,6 +28,7 @@ module.exports = (server) => {
       res.send(docs.map((d) => toResponse(d)));
       next();
     } catch (error) {
+      console.error("Error at documents GET ALL", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -52,6 +53,7 @@ module.exports = (server) => {
       res.send(toResponse(doc));
       next();
     } catch (error) {
+      console.error("Error at documents GET BYID", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -94,6 +96,7 @@ module.exports = (server) => {
       );
       next();
     } catch (error) {
+      console.error("Error at documents POST", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -147,6 +150,7 @@ module.exports = (server) => {
       console.log(`User ${userId} updated document`, toResponse(updatedDoc));
       next();
     } catch (error) {
+      console.error("Error at documents PUT", error);
       next(new errors.InternalServerError(error));
     }
   });
@@ -178,6 +182,7 @@ module.exports = (server) => {
       console.log(`User ${userId} deleted document`, toResponse(deletedDoc));
       next();
     } catch (error) {
+      console.error("Error at documents DEL", error);
       next(new errors.InternalServerError(error));
     }
   });

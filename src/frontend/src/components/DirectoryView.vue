@@ -39,20 +39,24 @@ export default {
   setup(props, { emit }) {
     const selectedDirectory = ref(props.selection);
 
+    const getDirectoryIdFromSelection = () => {
+      return Object.keys(selectedDirectory.value)[0] + "";
+    };
+
     const onAddDirectory = () => {
       emit("add");
     };
 
     const onDeleteDirectory = () => {
-      emit("delete", selectedDirectory.value);
+      emit("delete", getDirectoryIdFromSelection());
     };
 
     const onEditDirectory = () => {
-      emit("edit", selectedDirectory.value);
+      emit("edit", getDirectoryIdFromSelection());
     };
 
     watch(selectedDirectory, () => {
-      emit("selectionChanged", selectedDirectory.value);
+      emit("selectionChanged", getDirectoryIdFromSelection());
     });
 
     return {

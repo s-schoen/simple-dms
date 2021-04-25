@@ -21,6 +21,10 @@ const DocumentSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    documentDate: {
+      type: Date,
+      default: null,
+    },
     documentSize: {
       type: Number,
       require: true,

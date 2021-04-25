@@ -10,6 +10,7 @@ const toResponse = (d) => {
     description: d.description || "",
     content: d.content || "",
     author: d.author || "",
+    documentDate: d.documentDate || null,
     documentSize: d.documentSize,
     directory: d.directory,
     tags: d.tags,

@@ -64,8 +64,6 @@ module.exports = (server) => {
       next(new errors.BadRequestError("Invalid file"));
     }
 
-    console.log("GOT", req.params.data);
-    console.log("PARSED", JSON.parse(JSON.stringify(req.params.data)));
     const newDoc = new Document(JSON.parse(req.params.data));
     newDoc.user = userId;
     newDoc.documentSize = req.files.pdf.size;
@@ -76,7 +74,8 @@ module.exports = (server) => {
         .sort({ documentId: -1 })
         .limit(1);
 
-      newDoc.documentId = currentMaxDocId === null ? 1 : currentMaxDocId + 1;
+      newDoc.documentId =
+        currentMaxDocId === null ? 1 : currentMaxDocId[0].documentId + 1;
 
       const insertedDoc = await newDoc.save();
 

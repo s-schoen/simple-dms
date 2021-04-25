@@ -10,7 +10,7 @@ module.exports = {
   // secret to use for generating and verifying JWT
   JWT_SECRET: process.env.JWT_SECRET || "123456",
   // amount of time a JWT is valid
-  JWT_EXPIRATION_SPAN: process.env.JWT_EXPIRATION_SPAN || "60m",
+  JWT_EXPIRATION_SPAN: process.env.JWT_EXPIRATION_SPAN || "3600m",
   // whether to add artificial delay to responses for testing: either false or delay in ms
   ARTIFICIAL_DELAY: process.env.ARTIFICIAL_DELAY || false,
   // location to the data directory where uploaded documents are stored

@@ -31,6 +31,7 @@
     "mongoose": "^5.12.5",
     "mongoose-timestamps": "^0.0.1",
     "morgan": "^1.10.0",
+    "pdf-image": "^2.0.0",
     "restify": "^7.7.0",
     "restify-cors-middleware": "^1.1.1",
     "restify-errors": "^8.0.2",

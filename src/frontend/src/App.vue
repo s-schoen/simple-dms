@@ -1,5 +1,15 @@
 <template>
   <ConfirmDialog />
+  <InputDialog
+    :show="inputDialogVisible"
+    :title="inputDialogData.title"
+    :message="inputDialogData.message"
+    :fieldLabel="inputDialogData.fieldLabel"
+    :confirmButtonLabel="inputDialogData.confirmButtonLabel"
+    :defaultValue="inputDialogData.value"
+    @cancel="inputDialogVisible = false"
+    @confirm="inputDialogData.onConfirm"
+  />
   <div class="bg-gray-100 h-screen w-screen flex flex-col">
     <TheHeader />
     <div class="flex flex-auto h-full">
@@ -20,14 +30,32 @@
 import ConfirmDialog from "primevue/confirmdialog";
 import TheHeader from "@/components/TheHeader";
 import TheFooter from "@/components/TheFooter";
+import InputDialog from "@/components/InputDialog";
 import DirectoryView from "@/components/DirectoryView.vue";
 import useDirectories from "@/hooks/use-directories";
 import { useConfirm } from "primevue/useconfirm";
+import { ref } from "vue";
 
 export default {
-  components: { TheHeader, TheFooter, DirectoryView, ConfirmDialog },
+  components: {
+    TheHeader,
+    TheFooter,
+    DirectoryView,
+    ConfirmDialog,
+    InputDialog,
+  },
   setup() {
     const confirm = useConfirm();
+
+    const inputDialogVisible = ref(false);
+    const inputDialogData = ref({
+      title: "",
+      message: "",
+      fieldLabel: "",
+      confirmButtonLabel: "",
+      value: "",
+      onConfirm: () => {},
+    });
 
     // directory view
 
@@ -35,15 +63,31 @@ export default {
     const directoryItems = dirs.directoryMenuItems;
 
     const handleDirectorySelectionChanged = (selection) => {
-      console.log("Change directory", selection);
+      dirs.select(selection);
     };
 
     const handleDirectoryAddRequest = () => {
-      console.log("Request directory add");
+      inputDialogData.value = {
+        title: "Add Directory",
+        message: "",
+        fieldLabel: "Directory Name",
+        confirmButtonLabel: "Create",
+        value: "",
+        onConfirm: (val) => {
+          const parent =
+            dirs.selectedDirectory.value === null
+              ? null
+              : dirs.selectedDirectory.value.id;
+
+          dirs.createDirectory(val, parent);
+
+          inputDialogVisible.value = false;
+        },
+      };
+      inputDialogVisible.value = true;
     };
 
     const handleDirectoryDeleteRequest = (dir) => {
-      console.log("Request directory delete", dir);
       confirm.require({
         message:
           "Delete directory including all subdirectories? Stored documents are assigned uncategorized.",
@@ -57,11 +101,26 @@ export default {
       });
     };
 
-    const handleDirectoryEditRequest = (dir) => {
-      console.log("Request directory edit", dir);
+    const handleDirectoryEditRequest = () => {
+      const selected = dirs.selectedDirectory.value;
+
+      inputDialogData.value = {
+        title: "Add Directory",
+        message: "",
+        fieldLabel: "Directory Name",
+        confirmButtonLabel: "Create",
+        value: selected.name,
+        onConfirm: (val) => {
+          dirs.updateDirectory({ ...selected, name: val });
+          inputDialogVisible.value = false;
+        },
+      };
+      inputDialogVisible.value = true;
     };
 
     return {
+      inputDialogVisible,
+      inputDialogData,
       directoryItems,
       handleDirectorySelectionChanged,
       handleDirectoryAddRequest,

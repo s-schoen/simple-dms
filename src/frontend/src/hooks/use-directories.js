@@ -46,6 +46,7 @@ const flatDirectories = ref([
 ]);
 const directoryTree = ref([]);
 const directoryMenuItems = ref([]);
+const selectedDirectory = ref(null);
 
 const toMenuItem = (dir) => {
   const children = [];
@@ -75,24 +76,63 @@ const builtDirectoryTree = (parentId, childrenArray) => {
   }
 };
 
+const computeProperties = () => {
+  const tmp = [];
+  builtDirectoryTree(null, tmp);
+  directoryTree.value = tmp;
+
+  // recalculate menu items
+  directoryMenuItems.value = directoryTree.value.map((d) => toMenuItem(d));
+};
+
 export default function () {
   // initial struture generation
-  directoryTree.value.length = 0;
-  builtDirectoryTree(null, directoryTree.value);
-  directoryMenuItems.value = directoryTree.value.map((d) => toMenuItem(d));
+  computeProperties();
 
   watch(flatDirectories, () => {
-    const tmp = [];
-    builtDirectoryTree(null, tmp);
-    directoryTree.value = tmp;
-
-    // recalculate menu items
-    directoryMenuItems.value = directoryTree.value.map((d) => toMenuItem(d));
+    computeProperties();
   });
 
   return {
+    selectedDirectory,
     directories: flatDirectories,
     directoryMenuItems,
+    getById: function (id) {
+      return flatDirectories.value.find((d) => d.id === id);
+    },
+    select: function (dirId) {
+      selectedDirectory.value = flatDirectories.value.find(
+        (d) => d.id === dirId
+      );
+    },
+    createDirectory: function (dirName, parentId) {
+      const newDir = {
+        id: dirName,
+        name: dirName,
+        parent: parentId,
+        children: [],
+      };
+
+      flatDirectories.value.push(newDir);
+
+      // trigger reactivity
+      // eslint-disable-next-line no-self-assign
+      flatDirectories.value = flatDirectories.value;
+
+      computeProperties();
+    },
+    updateDirectory: function (update) {
+      flatDirectories.value = [
+        ...flatDirectories.value.filter((d) => d.id !== update.id),
+        update,
+      ];
+
+      // trigger reactivity
+      // eslint-disable-next-line no-self-assign
+      flatDirectories.value = flatDirectories.value;
+
+      computeProperties();
+    },
     deleteDirectory: function (directoryId) {
       flatDirectories.value = flatDirectories.value.filter(
         (d) => d.id !== directoryId

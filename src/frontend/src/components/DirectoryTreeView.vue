@@ -1,8 +1,26 @@
 <template>
   <div class="w-96">
     <div class="h-12 bg-gray-200 flex items-center justify-end p-4">
-      <i class="fas fa-folder-minus btn-icon" @click="onDeleteDirectory" />
-      <i class="ml-5 fas fa-pencil-alt btn-icon" @click="onEditDirectory" />
+      <i
+        :class="[
+          'ml-5',
+          'fas',
+          'fa-folder-minus',
+          { 'btn-icon': selected !== null },
+          { 'btn-icon-disabled': selected === null },
+        ]"
+        @click="onDeleteDirectory"
+      />
+      <i
+        :class="[
+          'ml-5',
+          'fas',
+          'fa-pencil-alt',
+          { 'btn-icon': selected !== null },
+          { 'btn-icon-disabled': selected === null },
+        ]"
+        @click="onEditDirectory"
+      />
       <i class="ml-5 fas fa-folder-plus btn-icon" @click="onAddDirectory" />
     </div>
     <div class="">
@@ -40,14 +58,24 @@ export default {
     };
 
     const onDeleteDirectory = () => {
-      emit("delete");
+      console.log("CLICK");
+      if (props.selected !== null) {
+        emit("delete");
+      }
     };
 
     const onEditDirectory = () => {
-      emit("edit");
+      if (props.selected !== null) {
+        emit("edit");
+      }
     };
 
-    return { onItemClick, onAddDirectory, onDeleteDirectory, onEditDirectory };
+    return {
+      onItemClick,
+      onAddDirectory,
+      onDeleteDirectory,
+      onEditDirectory,
+    };
   },
 };
 </script>

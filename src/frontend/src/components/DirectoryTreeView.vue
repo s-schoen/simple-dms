@@ -23,7 +23,7 @@
       />
       <i class="ml-5 fas fa-folder-plus btn-icon" @click="onAddDirectory" />
     </div>
-    <div class="">
+    <transition-group tag="div" name="expand">
       <div v-for="dir in directories" :key="dir.id">
         <DirectoryTreeItem
           :item="dir"
@@ -31,7 +31,7 @@
           @select="onItemClick"
         />
       </div>
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -79,4 +79,37 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.expand-enter-from {
+  opacity: 0.6;
+  transform: scale(0.75);
+}
+
+.expand-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.expand-enter-active {
+  transition: all 0.4s ease;
+}
+
+.expand-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.expand-leave-to {
+  opacity: 0.6;
+  transform: scale(0.75);
+}
+
+.expand-leave-active {
+  transition: all 0.2s ease;
+  position: absolute;
+}
+
+.expand-move {
+  transition: all 0.4s ease;
+}
+</style>

@@ -97,7 +97,9 @@ export default {
         icon: "pi pi-exclamation-triangle",
         acceptClass: "p-button-danger",
         accept: () => {
-          dirs.deleteDirectory(dirs.selectedDirectory.value.id);
+          const idToDelete = dirs.selectedDirectory.value.id;
+          dirs.select(null);
+          dirs.deleteDirectory(idToDelete);
         },
         reject: () => {},
       });

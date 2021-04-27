@@ -68,8 +68,6 @@ const computeProperties = () => {
 
   // eslint-disable-next-line no-self-assign
   directoryTree.value = directoryTree.value;
-
-  console.log("TRIGGER", directoryTree.value);
 };
 
 export default function () {

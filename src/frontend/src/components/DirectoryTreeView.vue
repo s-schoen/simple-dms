@@ -82,7 +82,7 @@ export default {
 <style scoped>
 .expand-enter-from {
   opacity: 0.6;
-  transform: scale(0.75);
+  transform: scale(0.1);
 }
 
 .expand-enter-to {
@@ -101,7 +101,7 @@ export default {
 
 .expand-leave-to {
   opacity: 0.6;
-  transform: scale(0.75);
+  transform: scale(0.1);
 }
 
 .expand-leave-active {

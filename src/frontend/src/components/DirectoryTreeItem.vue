@@ -16,6 +16,11 @@
       expanded = !expanded;
       onItemClick(item.id);
     "
+    :draggable="true"
+    @dragstart="onStartDrag($event)"
+    @drop="onDrop($event)"
+    @dragover.prevent
+    @dragenter.prevent
   >
     <div class="w-4">
       <i
@@ -42,6 +47,7 @@
       :key="dir.id"
       :item="dir"
       @select="onItemClick"
+      @move="onMove"
       :selected="selected"
     />
   </div>
@@ -59,7 +65,7 @@ export default {
       type: String,
     },
   },
-  emits: ["select"],
+  emits: ["select", "move"],
   setup(props, { emit }) {
     const expanded = ref(false);
 
@@ -67,7 +73,21 @@ export default {
       emit("select", id);
     };
 
-    return { onItemClick, expanded };
+    // drag & drop
+    const onStartDrag = (evt) => {
+      evt.dataTransfer.dropEffect = "move";
+      evt.dataTransfer.effectAllowed = "move";
+      evt.dataTransfer.setData("id", props.item.id);
+    };
+
+    const onDrop = (evt) => {
+      const droppedId = evt.dataTransfer.getData("id");
+      emit("move", { directoryId: droppedId, targetId: props.item.id });
+    };
+
+    const onMove = (val) => emit("move", val);
+
+    return { onItemClick, expanded, onStartDrag, onDrop, onMove };
   },
 };
 </script>

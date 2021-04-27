@@ -29,6 +29,7 @@
           :item="dir"
           :selected="selected"
           @select="onItemClick"
+          @move="onMoveDirectory"
         />
       </div>
     </transition-group>
@@ -48,7 +49,7 @@ export default {
       type: String,
     },
   },
-  emits: ["selection-changed", "add", "delete", "edit"],
+  emits: ["selection-changed", "add", "delete", "edit", "move"],
   setup(props, { emit }) {
     const onItemClick = (id) => {
       emit("selection-changed", id);
@@ -69,11 +70,16 @@ export default {
       }
     };
 
+    const onMoveDirectory = (val) => {
+      emit("move", val);
+    };
+
     return {
       onItemClick,
       onAddDirectory,
       onDeleteDirectory,
       onEditDirectory,
+      onMoveDirectory,
     };
   },
 };

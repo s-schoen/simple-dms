@@ -20,6 +20,7 @@
         @add="handleDirectoryAddRequest"
         @delete="handleDirectoryDeleteRequest"
         @edit="handleDirectoryEditRequest"
+        @move="handleDirectoryMoveRequest"
       />
       <router-view />
     </div>
@@ -122,6 +123,11 @@ export default {
       inputDialogVisible.value = true;
     };
 
+    const handleDirectoryMoveRequest = (val) => {
+      const current = dirs.getById(val.directoryId);
+      dirs.updateDirectory({ ...current, parent: val.targetId });
+    };
+
     return {
       inputDialogVisible,
       inputDialogData,
@@ -131,6 +137,7 @@ export default {
       handleDirectoryAddRequest,
       handleDirectoryDeleteRequest,
       handleDirectoryEditRequest,
+      handleDirectoryMoveRequest,
     };
   },
 };

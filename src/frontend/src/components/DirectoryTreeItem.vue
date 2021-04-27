@@ -12,8 +12,10 @@
       'select-none',
       { 'bg-gray-300': selected === item.id },
     ]"
-    @click="onItemClick(item.id)"
-    @dblclick="expanded = !expanded"
+    @click="
+      expanded = !expanded;
+      onItemClick(item.id);
+    "
   >
     <div class="w-4">
       <i
@@ -28,7 +30,7 @@
           { 'fa-chevron-right': !expanded },
           { 'fa-chevron-down': expanded },
         ]"
-        @click.prevent="expanded = !expanded"
+        @click.stop="expanded = !expanded"
       />
     </div>
     <i class="ml-3 fas fa-folder text-xl text-gray-600" />

@@ -89,7 +89,7 @@ export default {
       inputDialogVisible.value = true;
     };
 
-    const handleDirectoryDeleteRequest = (dir) => {
+    const handleDirectoryDeleteRequest = () => {
       confirm.require({
         message:
           "Delete directory including all subdirectories? Stored documents are assigned uncategorized.",
@@ -97,7 +97,7 @@ export default {
         icon: "pi pi-exclamation-triangle",
         acceptClass: "p-button-danger",
         accept: () => {
-          dirs.deleteDirectory(dir);
+          dirs.deleteDirectory(dirs.selectedDirectory.value.id);
         },
         reject: () => {},
       });

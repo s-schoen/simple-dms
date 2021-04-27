@@ -58,7 +58,6 @@ export default {
     };
 
     const onDeleteDirectory = () => {
-      console.log("CLICK");
       if (props.selected !== null) {
         emit("delete");
       }

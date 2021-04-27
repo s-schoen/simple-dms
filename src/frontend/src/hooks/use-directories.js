@@ -45,22 +45,7 @@ const flatDirectories = ref([
   },
 ]);
 const directoryTree = ref([]);
-const directoryMenuItems = ref([]);
 const selectedDirectory = ref(null);
-
-const toMenuItem = (dir) => {
-  const children = [];
-  for (let i = 0; i < dir.children.length; i++) {
-    children.push(toMenuItem(dir.children[i]));
-  }
-
-  return {
-    key: dir.id,
-    label: dir.name,
-    // icon: "fas fa-folder",
-    children: children,
-  };
-};
 
 const builtDirectoryTree = (parentId, childrenArray) => {
   const children = flatDirectories.value.filter((d) => d.parent === parentId);
@@ -81,8 +66,10 @@ const computeProperties = () => {
   builtDirectoryTree(null, tmp);
   directoryTree.value = tmp;
 
-  // recalculate menu items
-  directoryMenuItems.value = directoryTree.value.map((d) => toMenuItem(d));
+  // eslint-disable-next-line no-self-assign
+  directoryTree.value = directoryTree.value;
+
+  console.log("TRIGGER", directoryTree.value);
 };
 
 export default function () {
@@ -97,7 +84,6 @@ export default function () {
     selectedDirectory,
     directories: flatDirectories,
     directoryTree,
-    directoryMenuItems,
     getById: function (id) {
       return flatDirectories.value.find((d) => d.id === id);
     },

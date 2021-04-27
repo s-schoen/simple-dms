@@ -13,8 +13,9 @@
   <div class="bg-gray-100 h-screen w-screen flex flex-col">
     <TheHeader />
     <div class="flex flex-auto h-full">
-      <DirectoryView
+      <DirectoryTreeView
         :directories="directoryItems"
+        :selected="selectedDirectory ? selectedDirectory.id : null"
         @selection-changed="handleDirectorySelectionChanged"
         @add="handleDirectoryAddRequest"
         @delete="handleDirectoryDeleteRequest"
@@ -31,7 +32,7 @@ import ConfirmDialog from "primevue/confirmdialog";
 import TheHeader from "@/components/TheHeader";
 import TheFooter from "@/components/TheFooter";
 import InputDialog from "@/components/InputDialog";
-import DirectoryView from "@/components/DirectoryView.vue";
+import DirectoryTreeView from "@/components/DirectoryTreeView";
 import useDirectories from "@/hooks/use-directories";
 import { useConfirm } from "primevue/useconfirm";
 import { ref } from "vue";
@@ -40,9 +41,9 @@ export default {
   components: {
     TheHeader,
     TheFooter,
-    DirectoryView,
     ConfirmDialog,
     InputDialog,
+    DirectoryTreeView,
   },
   setup() {
     const confirm = useConfirm();
@@ -60,7 +61,8 @@ export default {
     // directory view
 
     const dirs = useDirectories();
-    const directoryItems = dirs.directoryMenuItems;
+    const directoryItems = dirs.directoryTree;
+    const selectedDirectory = dirs.selectedDirectory;
 
     const handleDirectorySelectionChanged = (selection) => {
       dirs.select(selection);
@@ -122,6 +124,7 @@ export default {
       inputDialogVisible,
       inputDialogData,
       directoryItems,
+      selectedDirectory,
       handleDirectorySelectionChanged,
       handleDirectoryAddRequest,
       handleDirectoryDeleteRequest,

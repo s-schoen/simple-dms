@@ -96,6 +96,7 @@ export default function () {
   return {
     selectedDirectory,
     directories: flatDirectories,
+    directoryTree,
     directoryMenuItems,
     getById: function (id) {
       return flatDirectories.value.find((d) => d.id === id);

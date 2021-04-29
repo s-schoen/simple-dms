@@ -13,6 +13,7 @@
   <div class="bg-gray-100 h-screen w-screen flex flex-col">
     <TheHeader />
     <div class="flex flex-auto h-full">
+      <LoginOverlay :show="signInVisible" @sign-in="handleSignIn" />
       <DirectoryTreeView
         :directories="directoryItems"
         :selected="selectedDirectory ? selectedDirectory.id : null"
@@ -33,6 +34,7 @@ import ConfirmDialog from "primevue/confirmdialog";
 import TheHeader from "@/components/TheHeader";
 import TheFooter from "@/components/TheFooter";
 import InputDialog from "@/components/InputDialog";
+import LoginOverlay from "@/components/LoginOverlay";
 import DirectoryTreeView from "@/components/DirectoryTreeView";
 import useDirectories from "@/hooks/use-directories";
 import { useConfirm } from "primevue/useconfirm";
@@ -45,9 +47,17 @@ export default {
     ConfirmDialog,
     InputDialog,
     DirectoryTreeView,
+    LoginOverlay,
   },
   setup() {
     const confirm = useConfirm();
+
+    // sign in
+    const signInVisible = ref(true);
+    const handleSignIn = (userData) => {
+      console.log("SI", userData);
+      signInVisible.value = false;
+    };
 
     const inputDialogVisible = ref(false);
     const inputDialogData = ref({
@@ -129,6 +139,8 @@ export default {
     };
 
     return {
+      signInVisible,
+      handleSignIn,
       inputDialogVisible,
       inputDialogData,
       directoryItems,

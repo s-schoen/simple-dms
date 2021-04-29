@@ -7,12 +7,12 @@
       <span class="font-bold text-4xl text-gray-700">Sign In</span>
       <div class="flex flex-col mb-2 mt-8">
         <span class="text-gray-700 font-semibold mb-1">Username</span>
-        <InputField v-model="username" />
+        <InputField v-model="username" @keyup="handleEnter" />
       </div>
 
       <div class="flex flex-col mb-4">
         <span class="text-gray-700 font-semibold mb-1">Password</span>
-        <InputField type="password" v-model="password" />
+        <InputField type="password" v-model="password" @keyup="handleEnter" />
       </div>
 
       <div class="flex justify-end">
@@ -50,12 +50,24 @@ export default {
     const password = ref("");
     const buttonLoading = ref(false);
 
+    const handleEnter = (event) => {
+      if (event.keyCode === 13) {
+        onSignIn();
+      }
+    };
+
     const onSignIn = () => {
       buttonLoading.value = !buttonLoading.value;
       emit("sign-in", { username: username.value, password: password.value });
     };
 
-    return { username, password, buttonLoading, onSignIn };
+    return {
+      username,
+      password,
+      buttonLoading,
+      onSignIn,
+      handleEnter,
+    };
   },
 };
 </script>

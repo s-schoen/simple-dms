@@ -44,7 +44,6 @@ export default {
     const password = ref("");
 
     const onSignIn = () => {
-      console.log("CLICK");
       emit("sign-in", { username: username.value, password: password.value });
     };
 

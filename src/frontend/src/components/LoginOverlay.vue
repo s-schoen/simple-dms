@@ -16,7 +16,13 @@
       </div>
 
       <div class="flex justify-end">
-        <Button variant="gray" class="w-32" @click="onSignIn">Sign In</Button>
+        <Button
+          variant="gray"
+          class="w-32"
+          :loading="buttonLoading"
+          @click="onSignIn"
+          >Sign In</Button
+        >
       </div>
     </div>
   </div>
@@ -42,12 +48,14 @@ export default {
   setup(props, { emit }) {
     const username = ref("");
     const password = ref("");
+    const buttonLoading = ref(false);
 
     const onSignIn = () => {
+      buttonLoading.value = !buttonLoading.value;
       emit("sign-in", { username: username.value, password: password.value });
     };
 
-    return { username, password, onSignIn };
+    return { username, password, buttonLoading, onSignIn };
   },
 };
 </script>

@@ -15,6 +15,10 @@
         <InputField type="password" v-model="password" @keyup="handleEnter" />
       </div>
 
+      <span v-show="showCredentialError" class="text-red-600 text-sm"
+        >Invalid Credentials!</span
+      >
+
       <div class="flex justify-end">
         <Button
           variant="gray"
@@ -31,6 +35,8 @@
 <script>
 import InputField from "@/components/toolkit/InputField.vue";
 import Button from "@/components/toolkit/Button.vue";
+import dmsApi from "@/api/simple-dms";
+import statusCodes from "@/api/status-codes";
 import { ref } from "vue";
 
 export default {
@@ -49,6 +55,7 @@ export default {
     const username = ref("");
     const password = ref("");
     const buttonLoading = ref(false);
+    const showCredentialError = ref(false);
 
     const handleEnter = (event) => {
       if (event.keyCode === 13) {
@@ -57,8 +64,33 @@ export default {
     };
 
     const onSignIn = () => {
-      buttonLoading.value = !buttonLoading.value;
-      emit("sign-in", { username: username.value, password: password.value });
+      buttonLoading.value = true;
+      showCredentialError.value = false;
+      dmsApi
+        .authenticate(username.value, password.value)
+        .then((authInfo) => {
+          // set JWT for future requests
+          dmsApi.setBearer(authInfo.token);
+
+          return dmsApi.getUserInfo(authInfo.id);
+        })
+        .then((user) => {
+          emit("sign-in", user);
+        })
+        .catch((error) => {
+          if (error.response.status === statusCodes.UNAUTHORIZED) {
+            showCredentialError.value = true;
+          } else if (error.response.status === statusCodes.UNAUTHORIZED) {
+            // TODO: set unauthorized
+            console.error("UNAUTHORIED", error);
+          } else {
+            // TODO: show toast
+            console.error("ERROR", error);
+          }
+        })
+        .finally(() => {
+          buttonLoading.value = false;
+        });
     };
 
     return {
@@ -67,6 +99,7 @@ export default {
       buttonLoading,
       onSignIn,
       handleEnter,
+      showCredentialError,
     };
   },
 };

@@ -58,10 +58,7 @@ export default {
     const handleSignIn = (userData) => {
       console.log("Sign in", userData);
 
-      auth.setUser({
-        username: "testuser",
-        displayName: "Test User",
-      });
+      auth.setUser(userData);
     };
 
     const inputDialogVisible = ref(false);

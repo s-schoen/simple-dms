@@ -41,6 +41,7 @@ server.use((req, res, next) => {
 // cors
 const cors = corsMiddleware({
   origins: ["*"],
+  allowHeaders: ["Authorization"],
 });
 
 server.pre(cors.preflight);

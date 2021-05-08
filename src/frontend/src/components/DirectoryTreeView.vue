@@ -48,6 +48,10 @@ export default {
     selected: {
       type: String,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["selection-changed", "add", "delete", "edit", "move"],
   setup(props, { emit }) {

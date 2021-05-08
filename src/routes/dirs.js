@@ -73,7 +73,7 @@ module.exports = (server) => {
 
   // update directory by id
   server.put("/api/dirs/:id", async (req, res, next) => {
-    req.accepts("application/json");
+    // req.accepts("application/json");
 
     const update = req.body;
     delete update._id;
@@ -93,7 +93,7 @@ module.exports = (server) => {
         );
       }
 
-      if (dirToUpdate.user !== userId) {
+      if (String(dirToUpdate.user) !== userId) {
         next(
           new errors.UnauthorizedError(
             `No permission for directory ${req.params.id}`
@@ -156,7 +156,7 @@ module.exports = (server) => {
         );
       }
 
-      if (dirToDelete.user !== userId) {
+      if (String(dirToDelete.user) !== userId) {
         next(
           new errors.UnauthorizedError(
             `No permission for directory ${req.params.id}`

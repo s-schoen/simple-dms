@@ -10,6 +10,7 @@ axios.defaults.baseURL = BASE_URL;
 // });
 
 export default {
+  // Users and Authentication
   setBearer: function (token) {
     axios.defaults.headers.common = { Authorization: `Bearer ${token}` };
   },
@@ -32,6 +33,39 @@ export default {
         .then((resp) => {
           resolve(resp.data);
         })
+        .catch((error) => reject(error));
+    });
+  },
+  // Directory API
+  fetchDirectories: function () {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/dirs")
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  insertDirectory: function (dir) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post("/dirs", dir)
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  updateDirectory: function (update) {
+    return new Promise((resolve, reject) => {
+      axios
+        .put(`/dirs/${update.id}`, update)
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  deleteDirectory: function (id) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/dirs/${id}`)
+        .then((resp) => resolve(resp.data))
         .catch((error) => reject(error));
     });
   },

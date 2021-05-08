@@ -71,7 +71,7 @@ module.exports = (server) => {
         );
       }
 
-      if (tagToUpdate.user !== userId) {
+      if (String(tagToUpdate.user) !== userId) {
         next(
           new errors.UnauthorizedError(`No permission for tag ${req.params.id}`)
         );
@@ -104,7 +104,7 @@ module.exports = (server) => {
         );
       }
 
-      if (tagToDelete.user !== userId) {
+      if (String(tagToDelete.user) !== userId) {
         next(
           new errors.UnauthorizedError(`No permission for tag ${req.params.id}`)
         );

@@ -59,6 +59,9 @@ export default {
       console.log("Sign in", userData);
 
       auth.setUser(userData);
+
+      // load data
+      dirs.fetch();
     };
 
     const inputDialogVisible = ref(false);

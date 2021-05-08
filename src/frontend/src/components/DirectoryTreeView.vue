@@ -5,29 +5,21 @@
       class="fas fa-spinner text-gray-600 text-2xl animate-spin absolute top-1/4 left-1/2"
     />
 
-    <div class="h-12 bg-gray-200 flex items-center justify-end p-4">
-      <i
-        :class="[
-          'ml-5',
-          'fas',
-          'fa-folder-minus',
-          { 'btn-icon': selected !== null },
-          { 'btn-icon-disabled': selected === null },
-        ]"
-        @click="onDeleteDirectory"
-      />
-      <i
-        :class="[
-          'ml-5',
-          'fas',
-          'fa-pencil-alt',
-          { 'btn-icon': selected !== null },
-          { 'btn-icon-disabled': selected === null },
-        ]"
-        @click="onEditDirectory"
-      />
-      <i class="ml-5 fas fa-folder-plus btn-icon" @click="onAddDirectory" />
-    </div>
+    <Toolbar>
+      <template #right>
+        <ToolbarIconButton
+          icon="fa-folder-minus"
+          :disabled="selected === null"
+          @click="onDeleteDirectory"
+        />
+        <ToolbarIconButton
+          icon="fa-pencil-alt"
+          :disabled="selected === null"
+          @click="onEditDirectory"
+        />
+        <ToolbarIconButton icon="fa-folder-plus" @click="onAddDirectory" />
+      </template>
+    </Toolbar>
     <transition-group tag="div" name="expand">
       <div v-for="dir in directories" :key="dir.id">
         <DirectoryTreeItem
@@ -43,9 +35,11 @@
 
 <script>
 import DirectoryTreeItem from "@/components/DirectoryTreeItem";
+import Toolbar from "@/components/toolkit/Toolbar";
+import ToolbarIconButton from "@/components/toolkit/ToolbarIconButton";
 
 export default {
-  components: { DirectoryTreeItem },
+  components: { DirectoryTreeItem, Toolbar, ToolbarIconButton },
   props: {
     directories: {
       type: Array,

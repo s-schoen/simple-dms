@@ -69,4 +69,66 @@ export default {
         .catch((error) => reject(error));
     });
   },
+  // Document API
+  fetchDocuments: function () {
+    return new Promise((resolve, reject) => {
+      axios
+        .get("/docs")
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  fetchDocument: function (docId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`/docs/${docId}`)
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  insertDocument: function (documentData, documentFile) {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+
+      formData.append("data", JSON.stringify(documentData));
+      formData.append("pdf", documentFile);
+
+      axios({
+        method: "POST",
+        url: "/docs",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  updateDocument: function (documentDataUpdate, documentFileUpdate = null) {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+
+      formData.append("data", JSON.stringify(documentDataUpdate));
+
+      if (documentFileUpdate !== null) {
+        formData.append("pdf", documentFileUpdate);
+      }
+
+      axios({
+        method: "PUT",
+        url: `/docs/${documentDataUpdate.id}`,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
+  deleteDocument: function (docId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`/docs/${docId}`)
+        .then((resp) => resolve(resp.data))
+        .catch((error) => reject(error));
+    });
+  },
 };

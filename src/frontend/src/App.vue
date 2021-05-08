@@ -39,7 +39,7 @@ import DirectoryTreeView from "@/components/DirectoryTreeView";
 import useDirectories from "@/hooks/use-directories";
 import useAuthentication from "@/hooks/use-authentication";
 import { useConfirm } from "primevue/useconfirm";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 
 export default {
   components: {
@@ -60,8 +60,7 @@ export default {
 
       auth.setUser(userData);
 
-      // load data
-      dirs.fetch();
+      fetchData();
     };
 
     const inputDialogVisible = ref(false);
@@ -73,6 +72,10 @@ export default {
       value: "",
       onConfirm: () => {},
     });
+
+    const fetchData = () => {
+      dirs.fetch();
+    };
 
     // directory view
 
@@ -142,6 +145,13 @@ export default {
       const current = dirs.getById(val.directoryId);
       dirs.updateDirectory({ ...current, parent: val.targetId });
     };
+
+    onMounted(() => {
+      if (auth.isAuthenticated.value) {
+        // fetch data initially
+        fetchData();
+      }
+    });
 
     return {
       authenticated: auth.isAuthenticated,

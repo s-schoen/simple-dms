@@ -66,16 +66,18 @@ export default {
     const onSignIn = () => {
       buttonLoading.value = true;
       showCredentialError.value = false;
+      let jwt;
       dmsApi
         .authenticate(username.value, password.value)
         .then((authInfo) => {
           // set JWT for future requests
-          dmsApi.setBearer(authInfo.token);
+          jwt = authInfo.token;
+          dmsApi.setBearer(jwt);
 
           return dmsApi.getUserInfo(authInfo.id);
         })
         .then((user) => {
-          emit("sign-in", user);
+          emit("sign-in", { ...user, jwt });
         })
         .catch((error) => {
           if (error.response.status === statusCodes.UNAUTHORIZED) {

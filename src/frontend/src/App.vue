@@ -17,6 +17,7 @@
       <DirectoryTreeView
         :directories="directoryItems"
         :selected="selectedDirectory ? selectedDirectory.id : null"
+        :loading="dirLoadingState.loading"
         @selection-changed="handleDirectorySelectionChanged"
         @add="handleDirectoryAddRequest"
         @delete="handleDirectoryDeleteRequest"
@@ -155,6 +156,7 @@ export default {
 
     return {
       authenticated: auth.isAuthenticated,
+      dirLoadingState: dirs.loadingState,
       handleSignIn,
       inputDialogVisible,
       inputDialogData,

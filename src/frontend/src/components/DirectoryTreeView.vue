@@ -1,5 +1,10 @@
 <template>
-  <div class="w-96">
+  <div class="w-96 relative">
+    <i
+      v-if="loading"
+      class="fas fa-spinner text-gray-600 text-2xl animate-spin absolute top-1/4 left-1/2"
+    />
+
     <div class="h-12 bg-gray-200 flex items-center justify-end p-4">
       <i
         :class="[
